@@ -1,21 +1,6 @@
 var expect = require("chai").expect;
 
-// takes a master list of name objects
-describe("master list, array of names", function() {
-
-  var namesList = [];
-
-  it("list should exist, empty", function() {
-
-  expect(namesList).to.be.a("array");
-  expect(namesList.length).to.be.equal(0);
-
-  });
-
-  it("should exist with names and partners filled", function() {
-
-  namesList = [
-    {
+var namesList = [{
       id: 1,
       name: "Alex",
       partners: []
@@ -34,9 +19,13 @@ describe("master list, array of names", function() {
       id: 4,
       name: "Sami",
       partners: [{id: 3, name:"Andy"}]
-    }
-  ];
-  
+    }];
+
+// takes a master list of name objects
+describe("master list, array of names", function() {
+
+  it("should exist with names and partners filled", function() {
+
   expect(namesList[0]).to.be.deep.equal({id: 1, name: "Alex", partners:[]});
   expect(namesList[1]).to.be.deep.equal({id: 2, name: "Zach", partners:[]});
   expect(namesList[2]).to.be.deep.equal({id: 3, name: "Andy", partners:[{id: 4, name:"Sami"}]});
@@ -47,19 +36,41 @@ describe("master list, array of names", function() {
 
 
 // takes a random item in a list, another random item in the list
-describe("random numbers", function() {
+describe("random items", function() {
 
-  it("should pick the first random number", function() {
+  var tempList1 = namesList; // save full list to temp
+  var tempList2 = namesList;
+
+  var first;
+  var second;
+
+  it("should pick the first random item - non-paired", function() {
+    // first = Math.floor(Math.random()* namesList.tempList1);
+    first = tempList1.splice(0,1); // static for now, hard to test random
+
+    expect(first[0]).to.be.deep.equal({id: 1, name: "Alex", partners:[]});
 
   });
 
-  it("should pick the second random number", function() {
+  it("should pick the second random item - non-paired", function() {
+    // second = Math.floor(Math.random()* namesList.tempList1);
+    second = tempList1.splice(0,1); // static for now, hard to test random
+
+    expect(second[0]).to.be.deep.equal({id: 2, name: "Zach", partners:[]});
+
+  });
+  
+  // compares whether they've been paired in the past before
+  it("compare 2 items to see if they've been picked before - non-paired", function() {
+
+    function compareNumbers(first,second){
+
+    }
+
 
   });
 
 });
-
-// compares whether they've been paired in the past before
 
 // if they have, re-run the picking function
 
