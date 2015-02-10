@@ -1,4 +1,5 @@
 var expect = require("chai").expect;
+var _ = require("underscore");
 
 var namesList = [{
       id: 1,
@@ -21,6 +22,23 @@ var namesList = [{
       partners: [{id: 3, name:"Andy"}]
     }];
 
+    function comparePeople(first,second){
+
+      //if both have never paired with anybody, return false
+      if (first.partners.length === 0 || second.partners.length === 0){
+        return false;
+      }
+
+      //otherwise, go through each of first's past partners and see if it matches with second person's name
+      for (var i=0; i < first.partners.length; i++){
+        if(first.partners[i].name === second.name) {
+          return true;
+        } else {
+          return false;
+        }
+      }
+    }
+
 // takes a master list of name objects
 describe("master list, array of names", function() {
 
@@ -36,37 +54,66 @@ describe("master list, array of names", function() {
 
 
 // takes a random item in a list, another random item in the list
-describe("random items", function() {
+describe("random items - non-paired", function() {
 
-  var tempList1 = namesList; // save full list to temp
-  var tempList2 = namesList;
+  var tempList = namesList; // save full list to temp
 
   var first;
   var second;
 
   it("should pick the first random item - non-paired", function() {
-    // first = Math.floor(Math.random()* namesList.tempList1);
-    first = tempList1.splice(0,1); // static for now, hard to test random
+    // first = Math.floor(Math.random()* tempList.length);
+    first = tempList[0]; // static for now, hard to test random
 
-    expect(first[0]).to.be.deep.equal({id: 1, name: "Alex", partners:[]});
+    expect(first).to.be.deep.equal({id: 1, name: "Alex", partners:[]});
 
   });
 
   it("should pick the second random item - non-paired", function() {
-    // second = Math.floor(Math.random()* namesList.tempList1);
-    second = tempList1.splice(0,1); // static for now, hard to test random
+    // second = Math.floor(Math.random()* tempList.length);
+    second = tempList[1]; // static for now, hard to test random
 
-    expect(second[0]).to.be.deep.equal({id: 2, name: "Zach", partners:[]});
+    expect(second).to.be.deep.equal({id: 2, name: "Zach", partners:[]});
 
   });
   
   // compares whether they've been paired in the past before
   it("compare 2 items to see if they've been picked before - non-paired", function() {
 
-    function compareNumbers(first,second){
+    expect(comparePeople(first,second)).to.be.equal(false);
 
-    }
+  });
 
+});
+
+// takes a random item in a list, another random item in the list
+describe("random items - paired", function() {
+
+  var tempList = namesList; // save full list to temp
+
+  var first;
+  var second;
+
+  it("should pick the first random item - paired", function() {
+    // first = Math.floor(Math.random()* tempList.length);
+    first = tempList[2]; // static for now, hard to test random
+
+    expect(first).to.be.deep.equal({id: 3, name: "Andy", partners:[{id: 4, name:"Sami"}]});
+
+  });
+
+  it("should pick the second random item - paired", function() {
+    // second = Math.floor(Math.random()* tempList.length);
+    second = tempList[3]; // static for now, hard to test random
+
+    expect(second).to.be.deep.equal({id: 4, name: "Sami", partners:[{id: 3, name:"Andy"}]});
+
+  });
+  
+  // compares whether they've been paired in the past before
+  it("compare 2 items to see if they've been picked before - paired", function() {
+
+    expect(comparePeople(first,second)).to.be.equal(true);
 
   });
 
